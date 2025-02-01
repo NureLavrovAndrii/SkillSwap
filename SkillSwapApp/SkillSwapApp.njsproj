@@ -40,8 +40,11 @@
     <Content Include="models\User.js" />
     <Content Include="routes\admin.js" />
     <Content Include="routes\auth.js" />
+    <Content Include="routes\feedback.js" />
     <Content Include="routes\index.js" />
+    <Content Include="routes\messages.js" />
     <Content Include="routes\profile.js" />
+    <Content Include="routes\search.js" />
     <Content Include="routes\user.js" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />
