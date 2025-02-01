@@ -7,11 +7,14 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const profileRoutes = require('./routes/profile');
 const adminRoutes = require('./routes/admin');
 const User = require('./models/User');
 const BarterExchange = require('./models/BarterExchange');
 const Message = require('./models/Message');
 const Feedback = require('./models/Feedback');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 
@@ -38,7 +41,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
-//app.use(cors({ credentials: true, origin: 'http://localhost:5173' })); // Adjust for frontend
+//app.use(cors({ credentials: true, origin: 'http://localhost:3000' })); // Adjust for frontend
 app.use(express.json());
 app.use(cookieParser()); // Enables cookie parsing
 
@@ -46,6 +49,8 @@ app.use(cookieParser()); // Enables cookie parsing
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Error handling
 app.use((req, res, next) => {
@@ -65,3 +70,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+

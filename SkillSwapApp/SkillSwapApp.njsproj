@@ -31,14 +31,17 @@
   <ItemGroup>
     <Content Include=".env" />
     <Content Include="app.js" />
-    <Content Include="middleware\authMiddleware" />
+    <Content Include="middleware\authMiddleware.js" />
+    <Content Include="middleware\uploadMiddleware.js" />
     <Content Include="models\BarterExchange.js" />
     <Content Include="models\Feedback.js" />
     <Content Include="models\Message.js" />
+    <Content Include="models\Profile.js" />
     <Content Include="models\User.js" />
     <Content Include="routes\admin.js" />
     <Content Include="routes\auth.js" />
     <Content Include="routes\index.js" />
+    <Content Include="routes\profile.js" />
     <Content Include="routes\user.js" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />
@@ -50,6 +53,7 @@
   <ItemGroup>
     <Folder Include="models\" />
     <Folder Include="middleware\" />
+    <Folder Include="uploads\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
