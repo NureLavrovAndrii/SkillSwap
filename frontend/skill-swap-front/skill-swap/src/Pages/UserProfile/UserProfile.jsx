@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './UserProfile.css';
 import { FaUser, FaCamera, FaEnvelope, FaInfoCircle, FaCode, FaLink } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
     const [profileImage, setProfileImage] = useState(null);

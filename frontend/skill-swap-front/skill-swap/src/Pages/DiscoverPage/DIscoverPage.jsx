@@ -92,7 +92,7 @@ const DiscoverPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button onClick={handleSearch} className="search-button">
-            <FaSearch />
+            <FaSearch size={'1.5em'}/>
           </button>
         </div>
 
