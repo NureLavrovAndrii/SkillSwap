@@ -10,7 +10,7 @@
   }
   
   /* Бокове меню */
-  .sidebar {
+  .discover-sidebar {
     width: 250px;
     background: #2c2c2c;
     color: white;
@@ -20,17 +20,17 @@
     overflow-y: auto;
   }
   
-  .sidebar h2 {
+  .discover-sidebar h2 {
     text-align: center;
     margin-bottom: 15px;
   }
   
-  .sidebar ul {
+  .discover-sidebar ul {
     list-style: none;
     padding: 0;
   }
   
-  .sidebar li {
+  .discover-sidebar li {
     background: #444;
     padding: 10px;
     margin: 5px 0;
@@ -40,7 +40,7 @@
     transition: background 0.3s;
   }
   
-  .sidebar li:hover {
+  .discover-sidebar li:hover {
     background: #ff6b6b;
   }
   

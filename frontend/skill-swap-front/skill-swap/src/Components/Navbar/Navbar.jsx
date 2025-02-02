@@ -23,14 +23,17 @@ const Navbar = () => {
 
   // Logout function
   const handleLogout = async () => {
-    await logout(); // Call logout API
-    setUser(null);
-    navigate('/'); // Redirect to homepage
+    const isConfirmed = window.confirm("Ви точно хочете вийти?");
+    if (isConfirmed) {
+      await logout(); // Call logout API
+      setUser(null);
+      navigate('/LoginRegister'); // Redirect to Login/Register page
+    }
   };
 
   return (
     <header className="header">
-      <Link to="/" className="logo">Logo</Link>
+      <Link to="/" className="logo">SkillSwap</Link>
 
       <nav className="navbar">
         {user ? (
@@ -38,11 +41,11 @@ const Navbar = () => {
             <Link to="/DiscoverPage">Discover</Link>
             <Link to={`/ProfilePage/${user._id}`}>Profile</Link>
             <Link to="/ChatPage">Messages</Link>
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
+            <Link onClick={handleLogout} className="logout-btn">Logout</Link>
           </>
         ) : (
           <>
-            <Link to="/">Home123</Link>
+            <Link to="/">Home</Link>
             <Link to="/AboutUs">About</Link>
             <Link to="/WhyUs">Why Us</Link>
             <Link to="/LoginRegister">Login</Link>

@@ -28,10 +28,7 @@ const ChatPage = () => {
     <div className="chat-container">
       {/* Ліва панель */}
       <div className="sidebar">
-        <div className="tabs">
-          <button className="active">Chat History</button>
-          <button>Requests</button>
-        </div>
+      <h2>Chat history</h2>
         <div className="chat-list">
           <div className="chat-item">John Doe</div>
           <div className="chat-item">Jane Smith</div>

@@ -9,12 +9,11 @@
   
   /* ====== Ліва панель (Сайдбар) ====== */
   .sidebar {
-    width: 300px;
-    background: #242526;
+    min-width: 250px;
+    background: #2c2c2c;
     color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
+    padding: 20px;
+    overflow-y: auto;
   }
   
   .tabs {

@@ -70,7 +70,7 @@ const DiscoverPage = () => {
   return (
     <div className="discover-container">
       {/* Sidebar */}
-      <aside className="sidebar">
+      <aside className="discover-sidebar">
         <h2>Popular Skills</h2>
         <ul>
           {popularSkills.map((skill, index) => (
