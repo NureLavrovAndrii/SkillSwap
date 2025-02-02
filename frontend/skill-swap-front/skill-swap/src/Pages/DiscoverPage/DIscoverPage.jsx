@@ -2,22 +2,26 @@ import React, { useState, useEffect } from "react";
 import "./DiscoverPage.css";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import api from "../../api"; // Import axios instance
+import { searchUsers } from "../../services/search"; // Import search service
+import api from "../../api"; // Import main API instance
 
-const popularSkills = ["React.js", "JavaScript", "Python", "Django", "Flutter", "AI", "ML", "Node.js", "CSS"];
+const popularSkills = ["React", "JavaScript", "Python", "Django", "Flutter", "AI", "ML", "Node.js", "CSS"];
 
 const DiscoverPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [users, setUsers] = useState([]); // State for user profiles
-  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]); // State for displaying users
+  const [allUsers, setAllUsers] = useState([]); // State for storing all users initially
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch users from backend
+  // Fetch all users on page load
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchAllUsers = async () => {
+      setLoading(true);
       try {
-        const response = await api.get("/search"); // API call to fetch profiles
+        const response = await api.get("/search"); // Fetch all users initially
         setUsers(response.data.results);
+        setAllUsers(response.data.results); // Store initial users
       } catch (err) {
         setError("Failed to fetch users. Try again later.");
       } finally {
@@ -25,13 +29,43 @@ const DiscoverPage = () => {
       }
     };
 
-    fetchUsers();
+    fetchAllUsers();
   }, []);
 
-  // Filter users based on search query
-  const filteredUsers = users.filter((user) =>
-    user.user.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Handle search when the button is clicked
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      setUsers(allUsers); // If search is empty, reset to all users
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const results = await searchUsers(searchQuery);
+      setUsers(results);
+    } catch (err) {
+      setError("Failed to fetch users. Try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle search by skill when a skill in sidebar is clicked
+  const handleSkillClick = async (skill) => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const results = await searchUsers(skill); // Search users by skill
+      setUsers(results);
+    } catch (err) {
+      setError("Failed to fetch users. Try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="discover-container">
@@ -40,7 +74,9 @@ const DiscoverPage = () => {
         <h2>Popular Skills</h2>
         <ul>
           {popularSkills.map((skill, index) => (
-            <li key={index}>{skill}</li>
+            <li key={index} className="skill-item" onClick={() => handleSkillClick(skill)}>
+              {skill}
+            </li>
           ))}
         </ul>
       </aside>
@@ -55,14 +91,18 @@ const DiscoverPage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <button onClick={handleSearch} className="search-button">
+            <FaSearch />
+          </button>
         </div>
 
         {/* Display Loading or Error Messages */}
-        {loading ? <p>Loading profiles...</p> : error ? <p className="error">{error}</p> : null}
+        {loading && <p>Loading profiles...</p>}
+        {error && <p className="error">{error}</p>}
 
         {/* User Profiles List */}
         <div className="profiles-container">
-          {filteredUsers.map((profile) => (
+          {users.map((profile) => (
             <div key={profile._id} className="user-card">
               <img 
                 src={profile.profilePicture ? `/uploads/${profile.profilePicture}` : "https://via.placeholder.com/150"}
