@@ -36,7 +36,6 @@ app.use(cors({
 }));
 
 // Middleware
-app.use(cors({ credentials: true, origin: process.env.FRONT_PORT }));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
