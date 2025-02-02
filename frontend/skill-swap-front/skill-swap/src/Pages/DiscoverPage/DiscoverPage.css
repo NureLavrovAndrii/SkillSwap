@@ -61,6 +61,7 @@
   
   .search-bar input {
     width: 60%;
+    height: 30px;
     padding: 12px;
     background: transparent;
     border: none;
@@ -190,11 +191,6 @@
     gap: 8px;
   }
   
-  .search-bar input {
-    flex: 1;
-    padding: 8px;
-    font-size: 16px;
-  }
   
   .search-button {
     background-color: #007bff;
