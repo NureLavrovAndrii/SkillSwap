@@ -1,0 +1,297 @@
+.edit-wrapper {
+    width: 100%;
+    height: 1080px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+
+.user-wrapper {
+    position: relative;
+    top: 50px;
+    width: 520px;
+    height: 850px;
+    background: #b2481b;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    transition: height .2s ease;
+    
+}
+
+.form-grid {
+    display: flex;
+    gap: 20px;
+    
+}
+
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+.user-wrapper.active {
+    height: 520px;
+    
+}
+
+.user-wrapper .form-box {
+    width: 100%;
+    padding: 40px;
+    
+}
+
+.user-wrapper .form-box.form-box.login {
+    transition: translate .18s ease;
+    translate: 0;
+    
+}
+
+.user-wrapper.active .form-box.login {
+    transition: none;
+    translate: -400px;
+    
+}
+
+.user-wrapper .form-box.regiser {
+    position: absolute;
+    transition: none;
+    translate: 400px;
+    
+}
+
+.user-wrapper.active .form-box.regiser {
+    transition: translate .18s ease;
+    translate: 0;
+}
+
+form h1 {
+    font-size: 36px;
+    text-align: center;
+    
+}
+
+form .input-container p {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+form .input-box {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    background: #57394a;
+    border-radius: 40px;
+    
+}
+
+.input-container:nth-of-type(3) .input-box {
+    position: relative;
+    justify-content: center;
+    width: 80%;
+    height: 50px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    background: #57394a;
+    border-radius: 40px;
+    
+}
+
+.input-container:nth-of-type(4) .input-box {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    background: #57394a;
+    border-radius: 40px;
+    border: 2px solid rgba(255, 255, 255, .1);
+    
+}
+
+.input-box input {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    word-break: break-all;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .1);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box textarea {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    word-break: break-all;
+    width: 87%;
+    height: inherit;
+    resize: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 5px 20px 20px;
+
+    overflow-y: auto;
+}
+
+.input-box textarea::-webkit-scrollbar {
+    width: 5px; /* Робимо скроллбар дуже тонким */
+}
+
+.input-box textarea::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2); /* Ледь помітний колір */
+    border-radius: 10px;
+}
+
+.input-box textarea::-webkit-scrollbar-track {
+    background: transparent; /* Робимо фон скроллбару прозорим */
+}
+
+.input-box textarea::placeholder {
+    color: #fff;
+    
+}
+
+.input-box:nth-of-type(4) input::placeholder {
+    color: #fff;
+}
+
+.input-box input::placeholder {
+    color: #fff;
+    
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    translate: 0 -50%;
+    font-size: 16px;
+}
+
+form .remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.remember-forgot label input {
+    accent-color: #fff;
+    margin: 4px;
+}
+
+.remember-forgot a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+form button {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+form button[type="button"]  {
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .1);
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+form .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    background: #57394a;
+    border-radius: 50%;
+    margin: 20px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.profile-image label {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-image input {
+    display: none;
+}
+
+.profile-image .icon {
+    font-size: 24px;
+    color: #fff;
+}
