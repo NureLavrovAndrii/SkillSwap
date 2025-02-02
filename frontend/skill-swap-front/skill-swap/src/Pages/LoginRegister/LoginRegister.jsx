@@ -27,7 +27,7 @@ const LoginRegister = () => {
         try {
             const data = await login(email, password);
             setMessage('Login successful! Redirecting...');
-            setTimeout(() => window.location.href = '/', 2000); // Redirect after login
+            setTimeout(() => window.location.href = '/DiscoverPage', 2000); // Redirect after login
         } catch (err) {
             setError(err);
         }
