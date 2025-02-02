@@ -127,5 +127,21 @@ router.post('/upload', authMiddleware, upload.single('profilePicture'), async (r
     }
 });
 
+/**
+ * @route   GET /api/profile/:userId
+ * @desc    Get profile by user ID
+ * @access  Public
+ */
+router.get('/:userId', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.params.userId }).populate('user', ['name', 'email']);
+        if (!profile) {
+            return res.status(404).json({ error: 'Profile not found' });
+        }
+        res.json(profile);
+    } catch (error) {
+        res.status(500).json({ error: 'Server Error' });
+    }
+});
 
 module.exports = router;
