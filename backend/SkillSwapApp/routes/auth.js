@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 require('dotenv').config();
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -66,6 +67,17 @@ router.post('/login', async (req, res) => {
 router.get('/logout', (req, res) => {
     res.clearCookie('token');
     res.json({ message: 'Logged out successfully' });
+});
+
+router.get('/me', authMiddleware, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId).select('-password'); // Remove password field
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch user' });
+    }
 });
 
 module.exports = router;

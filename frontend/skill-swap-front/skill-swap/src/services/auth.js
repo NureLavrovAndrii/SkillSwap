@@ -29,3 +29,7 @@ export const getCurrentUser = async () => {
         throw error.response?.data?.error || 'Failed to fetch user';
     }
 };
+
+export const logout = async () => {
+    await api.get('/auth/logout', { withCredentials: true });
+};
