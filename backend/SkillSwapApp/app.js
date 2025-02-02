@@ -1,5 +1,5 @@
 'use strict';
-//require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const http = require('http');  // Required for WebSockets
 const { Server } = require('socket.io');  // Import Socket.IO
@@ -24,8 +24,16 @@ const Feedback = require('./models/Feedback');
 const app = express();
 const server = http.createServer(app);  // Create HTTP Server
 const io = new Server(server, {
-    cors: { origin: process.env.FRONT_PORT, credentials: true }  // Adjust for frontend
+    cors: {
+        origin: 'http://localhost:3001', credentials: true }  // Adjust for frontend
 });
+
+app.use(cors({
+    origin: 'http://localhost:3001',  // Ensure this matches the frontend port
+    credentials: true,  // Allows cookies & authentication headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Middleware
 app.use(cors({ credentials: true, origin: process.env.FRONT_PORT }));
