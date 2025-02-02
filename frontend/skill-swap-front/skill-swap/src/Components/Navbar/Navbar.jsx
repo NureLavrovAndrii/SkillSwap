@@ -1,11 +1,5 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import LoginRegister from '../../Pages/LoginRegister/LoginRegister';
-import LandingPage from '../../Pages/LandingPage/LandingPage';
-import AboutUs from '../../Pages/AboutUs/AboutUs';
-import UserProfile from '../../Pages/UserProfile/UserProfile';
-import DiscoverPage from '../../Pages/DiscoverPage/DIscoverPage';
-import ProfilePage from '../../Pages/ProfilePage/ProfilePage';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -20,7 +14,7 @@ const Navbar = () => {
              <Link to="/WhyUs">Why us</Link>
              <Link to="/LoginRegister">Login</Link>
          </nav>
-        
+
       </header>
       
     </>
