@@ -38,13 +38,13 @@
     translate: -400px;
 }
 
-.wrapper .form-box.regiser {
+.wrapper .form-box.register {
     position: absolute;
     transition: none;
     translate: 400px;
 }
 
-.wrapper.active .form-box.regiser {
+.wrapper.active .form-box.register {
     transition: translate .18s ease;
     translate: 0;
 }
