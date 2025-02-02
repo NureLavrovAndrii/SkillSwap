@@ -163,6 +163,8 @@
   /* Кнопка перегляду профілю */
   .view-profile {
     margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
     padding: 10px 15px;
     background: #ff6b6b;
     color: white;
@@ -170,9 +172,16 @@
     text-decoration: none;
     transition: 0.3s;
   }
+
+  .view-profile.connect {
+    background: #008f68;
+  }
   
   .view-profile:hover {
     background: #e65151;
+  }
+  .view-profile.connect:hover {
+    background: #327233;
   }
 
   .search-bar {
@@ -198,6 +207,12 @@
   
   .search-button:hover {
     background-color: #0056b3;
+  }
+
+  .interact-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
   
   

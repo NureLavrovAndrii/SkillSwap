@@ -118,9 +118,14 @@ const DiscoverPage = () => {
                   <span key={index} className="skill-badge">{skill}</span>
                 ))}
               </div>
-              <Link to={`/profile/${profile.user._id}`} className="view-profile">
-                View Profile
-              </Link>
+              <div className="interact-container">
+                <Link to={`/ChatPage`} className="view-profile connect">
+                  Connect
+                </Link>
+                <Link to={`/profile/${profile.user._id}`} className="view-profile">
+                  View Profile
+                </Link>
+              </div>
             </div>
           ))}
         </div>
