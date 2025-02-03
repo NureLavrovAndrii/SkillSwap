@@ -25,6 +25,17 @@ router.post('/register', async (req, res) => {
         user = new User({ name, email, password: hashedPassword });
         await user.save();
 
+        const defaultProfile = new Profile({
+            user: user._id,
+            bio: "This user has not added a bio yet.",
+            skills: [],
+            location: "Not specified",
+            socialLinks: { github: "", linkedin: "", website: "" },
+            profilePicture: ""
+        });
+
+        await defaultProfile.save(); // Save profile
+
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Registration failed' });
