@@ -37,11 +37,12 @@
     border-radius: 5px;
     text-align: center;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, padding 0.5s;
   }
   
   .discover-sidebar li:hover {
     background: #ff6b6b;
+    padding: 15px;
   }
   
   /* Контейнер основного контенту */
