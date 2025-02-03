@@ -152,3 +152,58 @@
 .social-icon:hover {
     color: #1db954;
 }
+
+.location-text {
+    padding-bottom: 10px;
+}
+
+.reviews-link a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+.reviews-link a::after {
+    display: flex;
+    top: 100%;
+    content: '';
+    width: 0%;
+    height: 2px;
+    background: #fff;
+    transition: .3s;
+}
+
+.reviews-link a:hover::after {
+    width: 10%;
+}
+
+/* 📌 Вікно відгуків (спочатку приховане) */
+.reviews-container {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease-in-out, max-height .5s ease-in-out, padding 0.5s ease-in-out;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0px 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+/* 📌 Показати відгуки */
+.reviews-container.show {
+    max-height: 300px; /* або auto, якщо хочеш без обмежень */
+    opacity: 1;
+    padding: 20px;
+    transition: 0.5s;
+}
+
+/* 📌 Стилі для списку відгуків */
+.review-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}

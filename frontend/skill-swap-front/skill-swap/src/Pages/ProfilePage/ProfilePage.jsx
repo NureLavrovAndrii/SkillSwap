@@ -11,8 +11,9 @@ const ProfilePage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showReviews, setShowReviews] = useState(false); // 📌 Додаємо стан
 
-  // Fetch both profile data and logged-in user
+  // Fetch profile data
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -39,6 +40,7 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <div className="profile-card">
+        {/* 📌 Блок з фото і загальною інфою */}
         <div className="profile-header">
           <img 
             src={profile.profilePicture ? profile.profilePicture : "/assets/images/ProfilePictureTest.jpg"} 
@@ -48,13 +50,14 @@ const ProfilePage = () => {
           <div className="profile-info">
             <h1>{profile.user.name}</h1>
             <div className="rating">⭐⭐⭐⭐⭐ (5)</div>
-            <div className="buttons">
-              <button className="connect-btn">Connect</button>
-              <button className="report-btn">Report</button>
+            <div className="reviews-link">
+              <a href="#" onClick={(e) => { e.preventDefault(); setShowReviews(!showReviews); }}>
+                {showReviews ? "Hide reviews" : "Show reviews"}
+              </a>
             </div>
           </div>
 
-          {/* ✅ Show Edit Profile button only if it's the logged-in user's profile */}
+          {/* ✅ Повертаю кнопку редагування профілю в правильне місце */}
           {currentUser && currentUser._id === profile.user._id && (
             <Link to="/UserProfile">
               <button className="edit-profile-btn">Edit Profile →</button>
@@ -62,7 +65,10 @@ const ProfilePage = () => {
           )}
         </div>
 
+        {/* 📌 Основні секції профілю */}
         <div className="profile-section">
+          <h2>Location</h2>
+          <p className="location-text">{profile.location || "No location available"}</p>
           <h2>Bio</h2>
           <p>{profile.bio || "No bio available."}</p>
         </div>
@@ -80,6 +86,23 @@ const ProfilePage = () => {
           </div>
         </div>
 
+        {/* 📌 Вікно з відгуками */}
+        <div className={`reviews-container ${showReviews ? "show" : ""}`}>
+          <h2>Reviews</h2>
+          <ul>
+            {profile.reviews && profile.reviews.length > 0 ? (
+              profile.reviews.map((review, index) => (
+                <li key={index} className="review-item">
+                  <strong>{review.author}</strong>: {review.text}
+                </li>
+              ))
+            ) : (
+              <p>No reviews yet.</p>
+            )}
+          </ul>
+        </div>
+
+        {/* 📌 Соціальні посилання */}
         <div className="profile-section social-links">
           <h2>Social Links</h2>
           {profile.socialLinks ? (
