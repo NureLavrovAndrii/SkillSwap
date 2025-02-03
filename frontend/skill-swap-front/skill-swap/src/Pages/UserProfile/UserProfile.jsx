@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import './UserProfile.css';
 import { FaUser, FaCamera, FaEnvelope, FaInfoCircle, FaCode, FaLink } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
     const [profileImage, setProfileImage] = useState(null);
+    const navigate = useNavigate();
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -87,9 +88,8 @@ const UserProfile = () => {
                     </div>
 
                     <button type="submit">Edit</button>
-                    <Link to={"/WhyUs"}>
-                        <button type="button">Cancel</button>
-                    </Link>
+                    <button type="button" onClick={() => navigate(-1)}>Cancel</button>
+                    
                     
                 </form>
             </div>

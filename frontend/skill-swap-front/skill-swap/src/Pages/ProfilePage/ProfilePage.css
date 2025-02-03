@@ -72,22 +72,42 @@
 
 .connect-btn {
     background: #008f68;
+    transition: 0.3s;
     color: white;
+}
+
+.connect-btn:hover {
+    background: #006d50;
+    transition: 0.3s;
 }
 
 .report-btn {
     background: #c0392b;
     color: white;
+    transition: 0.3s;
+}
+
+.report-btn:hover {
+    background: #a03125;
+    transition: 0.3s;
 }
 
 /* Кнопка редагування */
 .edit-profile-btn {
-    background: #005f3c;
+    background: #008f68;
+    transition: 0.3s;
+    font-family: "Poppins", serif;
+    font-weight: 600;
     color: white;
     padding: 12px 16px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+}
+
+.edit-profile-btn:hover {
+    background: #006d50;
+    transition: 0.3s;
 }
 
 /* Блоки інформації */

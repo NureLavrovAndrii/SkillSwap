@@ -122,7 +122,7 @@ const DiscoverPage = () => {
                 <Link to={`/ChatPage`} className="view-profile connect">
                   Connect
                 </Link>
-                <Link to={`/profile/${profile.user._id}`} className="view-profile">
+                <Link to={`/ProfilePage/${profile.user._id}`} className="view-profile">
                   View Profile
                 </Link>
               </div>

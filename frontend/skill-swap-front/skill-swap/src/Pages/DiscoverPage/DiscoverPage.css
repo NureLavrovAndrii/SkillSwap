@@ -202,10 +202,12 @@
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
   }
   
   .search-button:hover {
     background-color: #e65151;
+    transition: 0.3s;
     border: 2px solid rgba(226, 226, 226, 0.856)
   }
 

@@ -1,6 +1,6 @@
 .edit-wrapper {
     width: 100%;
-    height: 1080px;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,9 +10,8 @@
 
 .user-wrapper {
     position: relative;
-    top: 50px;
+    top: 45px;
     width: 520px;
-    height: 850px;
     background: #b2481b;
     border-radius: 10px;
     color: #fff;
@@ -98,8 +97,9 @@ form .input-box {
 
 .input-container:nth-of-type(3) .input-box {
     position: relative;
+    display: flex;
     justify-content: center;
-    width: 80%;
+    width: 100%;
     height: 50px;
     margin-top: 0;
     margin-bottom: 15px;

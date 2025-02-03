@@ -26,7 +26,7 @@ const AboutUs = () => {
           everyone has the opportunity to thrive.
         </p>
       </div>
-      <img src={"/assets/images/about us.jpg"} style={{ maxWidth: "50vw", maxHeight: "100vh", background: "transparent" }} />
+      <img src={"/assets/images/about us_transparent.png"} style={{ maxWidth: "50vw", maxHeight: "100vh", background: "transparent" }} />
     </div>
   );
 };
