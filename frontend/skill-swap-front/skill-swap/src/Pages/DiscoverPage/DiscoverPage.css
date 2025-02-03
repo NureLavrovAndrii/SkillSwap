@@ -223,6 +223,115 @@
     justify-content: space-between;
   }
   
+  /* Група фільтрів */
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-group h3 {
+  margin-bottom: 10px;
+}
+
+/* Група фільтрів */
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-group h3 {
+  margin-bottom: 10px;
+}
+
+/* Оформлення чекбоксів у списку навичок */
+.skill-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: #444;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, padding 0.5s;
+}
+
+.skill-item:hover {
+  background: #ff6b6b;
+  padding: 15px;
+}
+
+/* Оформлення чекбоксів */
+.skill-item input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid white;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* Коли чекбокс активний */
+.skill-item input[type="checkbox"]:checked {
+  background: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+/* Додаємо галочку */
+.skill-item input[type="checkbox"]::after {
+  content: "✔";
+  font-size: 14px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+/* Показуємо галочку, коли чекбокс активний */
+.skill-item input[type="checkbox"]:checked::after {
+  display: block;
+}
+
+
+/* Поле введення локації */
+.location-input {
+  transition: 0.5s;
+  width: 100%;
+  height: 30px;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(226, 226, 226, 0.856);
+  border-radius: 40px;
+  font-size: 16px;
+  color: #fff;
+  padding: 20px 45px 20px 20px;
+}
+
+.location-input:focus {
+  transition: 0.5s;
+  border-color: #ff6b6b;
+}
+
+/* Кнопка застосування фільтрів */
+.apply-filters {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.apply-filters:hover {
+  background: #e65151;
+}
   
   /* Адаптивність */
   @media (max-width: 768px) {
