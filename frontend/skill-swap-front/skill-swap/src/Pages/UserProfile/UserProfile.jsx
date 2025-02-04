@@ -51,19 +51,36 @@ const UserProfile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const linksArray = profile.links.split(',').map(link => link.trim());
+    
+        // Якщо є файл для завантаження, спочатку завантажуємо його
+        if (document.getElementById("imageUpload").files.length > 0) {
+            try {
+                const file = document.getElementById("imageUpload").files[0];
+                const response = await uploadProfilePicture(file);
+                setProfile(prevProfile => ({
+                    ...prevProfile,
+                    profilePicture: response.profilePicture
+                }));
+            } catch (err) {
+                setError("Failed to upload image.");
+                return;
+            }
+        }
+    
+        // Обробка соціальних посилань
+        const linksArray = profile.links.split(",").map(link => link.trim());
         const updatedSocialLinks = {
             github: linksArray[0] || "",
             linkedin: linksArray[1] || "",
             website: linksArray[2] || ""
         };
-
+    
         try {
             await updateProfile({ ...profile, socialLinks: updatedSocialLinks });
-            alert('Profile updated successfully!');
-            navigate('/ProfilePage/' + profile.user._id);
+            alert("Profile updated successfully!");
+            navigate("/ProfilePage/" + profile.user._id);
         } catch (err) {
-            setError('Failed to update profile.');
+            setError("Failed to update profile.");
         }
     };
 
@@ -74,7 +91,7 @@ const UserProfile = () => {
         <div className="edit-wrapper">
             <div className={`user-wrapper`}>
                 <div className="form-box login">
-                    <form onSubmit={handleSubmit && handleImageChange}>
+                    <form onSubmit={handleSubmit}>
                         <h1>Edit profile</h1>
                         <div className="profile-image">
                             <label htmlFor="imageUpload">

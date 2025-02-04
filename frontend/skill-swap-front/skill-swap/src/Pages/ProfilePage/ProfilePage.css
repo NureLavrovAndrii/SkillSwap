@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     background: linear-gradient(to right, #FFDAC6, #E6A4B4);
 }
@@ -17,6 +17,15 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     width: 90%;
     max-width: 1200px; /* Щоб контент не розтягувався надто сильно */
+    margin-bottom: 50px;
+
+    position: absolute; /* Фіксуємо вгорі */
+    top: 120px; /* Відступ від верху */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    max-height: calc(100vh - 40px); /* Щоб картка не виходила за межі екрану */
+    overflow-y: auto; /* Додаємо прокрутку, якщо контенту багато */
 }
 
 /* Хедер профілю */

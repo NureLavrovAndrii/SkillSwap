@@ -58,6 +58,12 @@ const ProfilePage = () => {
                 {showReviews ? "Hide reviews" : "Show reviews"}
               </a>
             </div>
+            {currentUser && currentUser._id != profile.user._id && (
+              <div className="buttons">
+              <button className="connect-btn">Connect</button>
+              <button className="report-btn">Report</button>
+            </div>
+            )}
           </div>
 
           {/* ✅ Повертаю кнопку редагування профілю в правильне місце */}
@@ -96,7 +102,9 @@ const ProfilePage = () => {
             {feedbacks.length > 0 ? (
               feedbacks.map((review, index) => (
                 <li key={index} className="review-item">
-                  <strong>{review.author}</strong>: {review.text}
+                  <strong>{review.reviewer?.name || "Anonymous"}</strong>: {review.comment}
+                  <div className="rating">Rating: {review.rating} ⭐</div>
+                  <small>{new Date(review.createdAt).toLocaleDateString()}</small>
                 </li>
               ))
             ) : (
@@ -104,6 +112,7 @@ const ProfilePage = () => {
             )}
           </ul>
         </div>
+
 
         {/* 📌 Соціальні посилання */}
         <div className="profile-section social-links">
