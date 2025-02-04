@@ -11,6 +11,6 @@ export const getFeedbackForUser = async (userId) => {
 };
 
 export const getAverageRating = async (userId) => {
-    const response = await api.get(`/feedback/${userId}/average`);
+    const response = await api.get(`/feedback/average/${userId}`);
     return response.data;
 };
