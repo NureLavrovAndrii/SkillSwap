@@ -1,8 +1,9 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const Profile = require('../models/Profile');
+const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
-const upload= require('../middleware/uploadMiddleware');
-
+const upload = require('../middleware/uploadMiddleware');
 
 const router = express.Router();
 
@@ -65,23 +66,42 @@ router.get('/me', authMiddleware, async (req, res) => {
 
 /**
  * @route   PUT /api/profile
- * @desc    Update Profile Details
+ * @desc    Update User & Profile Details
  * @access  Private
  */
 router.put('/', authMiddleware, async (req, res) => {
     try {
-        const profile = await Profile.findOneAndUpdate(
-            { user: req.user.userId },
-            { $set: req.body },
-            { new: true, runValidators: true }
-        );
+        const { name, email, bio, skills, location, socialLinks, profilePicture } = req.body;
 
-        if (!profile) {
+        // **1?? Update User Data (Name, Email)**
+        await User.findByIdAndUpdate(req.user.userId, { name, email }, { new: true });
+
+        // **2?? Update Profile Data**
+        const updatedProfile = await Profile.findOneAndUpdate(
+            { user: req.user.userId },
+            {
+                $set: {
+                    bio,
+                    skills: Array.isArray(skills) ? skills : skills.split(',').map(skill => skill.trim()), // Ensure array
+                    location,
+                    socialLinks: {
+                        github: socialLinks?.github || "",
+                        linkedin: socialLinks?.linkedin || "",
+                        website: socialLinks?.website || ""
+                    },
+                    profilePicture
+                }
+            },
+            { new: true, runValidators: true }
+        ).populate('user', ['name', 'email']); // **Return updated user fields**
+
+        if (!updatedProfile) {
             return res.status(404).json({ error: 'Profile not found' });
         }
 
-        res.json(profile);
+        res.json(updatedProfile);
     } catch (error) {
+        console.error("? Error updating profile:", error);
         res.status(500).json({ error: 'Server Error' });
     }
 });

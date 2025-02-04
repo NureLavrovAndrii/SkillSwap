@@ -16,19 +16,25 @@ const UserProfile = () => {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
                 const data = await getProfile('me');
-    
-                // Об'єднуємо масив `skills` у рядок для інпуту
-                const skillsString = Array.isArray(data.skills) ? data.skills.join(", ") : data.skills;
-    
-                const socialLinks = Object.values(data.socialLinks).filter(link => link).join(', ');
-    
-                setProfile({ ...data, skills: skillsString, links: socialLinks });
+
+                setProfile({
+                    user: {
+                        name: data.user?.name || "",
+                        email: data.user?.email || "",
+                    },
+                    location: data.location || "",
+                    skills: Array.isArray(data.skills) ? data.skills.join(", ") : "",
+                    bio: data.bio || "",
+                    links: Object.values(data.socialLinks || {}).filter(link => link).join(', '),
+                    profilePicture: data.profilePicture || ""
+                });
             } catch (err) {
                 setError('Failed to load profile. Try again later.');
             } finally {
@@ -40,56 +46,44 @@ const UserProfile = () => {
     
 
     const handleChange = (e) => {
-        setProfile({ ...profile, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        if (name === "name" || name === "email") {
+            setProfile((prevProfile) => ({
+                ...prevProfile,
+                user: { ...prevProfile.user, [name]: value }
+            }));
+        } else {
+            setProfile({ ...profile, [name]: value });
+        }
+
     };
 
     const handleImageChange = async (e) => {
-        const filePath = e.target.files[0]?.path;
-        if (!filePath) return;
-
-        try {
-            const response = await uploadProfilePicture(filePath);
-            setProfile({ ...profile, profilePicture: response.profilePicture });
-        } catch (err) {
-            setError('Failed to upload image.');
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+            setProfile({ ...profile, profilePicture: URL.createObjectURL(file) });
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        // Якщо є файл для завантаження, спочатку завантажуємо його
-        if (document.getElementById("imageUpload").files.length > 0) {
-            try {
-                const file = document.getElementById("imageUpload").files[0];
-                const response = await uploadProfilePicture(file);
-                setProfile(prevProfile => ({
-                    ...prevProfile,
-                    profilePicture: response.profilePicture
-                }));
-            } catch (err) {
-                setError("Failed to upload image.");
-                return;
-            }
-        }
-    
-        // Обробка соціальних посилань
-        const linksArray = profile.links.split(",").map(link => link.trim());
-        const updatedSocialLinks = {
-            github: linksArray[0] || "",
-            linkedin: linksArray[1] || "",
-            website: linksArray[2] || ""
-        };
-    
-        // Перетворення `skills` у масив
-        const skillsArray = profile.skills.split(",").map(skill => skill.trim());
-    
+
         try {
-            await updateProfile({ 
-                ...profile, 
-                socialLinks: updatedSocialLinks, 
-                skills: skillsArray // передаємо масив
+            let uploadedPicturePath = profile.profilePicture; // Default to existing picture
+            
+            // ✅ Upload the image **only if a new file is selected**
+            if (selectedFile) {
+                const response = await uploadProfilePicture(selectedFile);
+                uploadedPicturePath = response.profilePicture; // Update with new uploaded path
+            }
+
+            await updateProfile({
+                ...profile,
+                profilePicture: uploadedPicturePath // ✅ Send correct image path
             });
+
             alert("Profile updated successfully!");
             navigate("/ProfilePage/" + profile.user._id);
         } catch (err) {
@@ -108,7 +102,7 @@ const UserProfile = () => {
                         <h1>Edit profile</h1>
                         <div className="profile-image">
                             <label htmlFor="imageUpload">
-                                <input type="file" id="imageUpload" accept="image/*" />
+                                <input type="file" id="imageUpload" accept="image/*" onChange={handleImageChange}/>
                                 {profile.profilePicture ? (
                                     <img src={profile.profilePicture ? `http://localhost:3000${profile.profilePicture}` : "/assets/images/ProfilePictureTest.jpg"} alt="Profile" />
                                 ) : (

@@ -216,3 +216,11 @@
 .review-item:last-child {
     border-bottom: none;
 }
+
+.filled-star {
+    color: gold;
+  }
+  
+  .empty-star {
+    color: lightgray;
+  }
