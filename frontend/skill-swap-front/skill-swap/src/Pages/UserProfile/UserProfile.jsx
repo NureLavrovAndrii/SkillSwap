@@ -80,7 +80,7 @@ const UserProfile = () => {
                             <label htmlFor="imageUpload">
                                 <input type="file" id="imageUpload" accept="image/*" onChange={handleImageChange} />
                                 {profile.profilePicture ? (
-                                    <img src={profile.profilePicture} alt="Profile" />
+                                    <img src={profile.profilePicture ? `http://localhost:3000${profile.profilePicture}` : "/assets/images/ProfilePictureTest.jpg"} alt="Profile" />
                                 ) : (
                                     <FaCamera className="icon" />
                                 )}
