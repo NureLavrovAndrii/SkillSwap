@@ -46,12 +46,10 @@ router.post('/', authMiddleware, async (req, res) => {
 router.get("/:userId", async (req, res) => {
     try {
         const { userId } = req.params;
-        console.log("Fetching feedbacks for user:", userId); // ? Debugging log
 
         const feedbacks = await Feedback.find({ recipient: userId }) // ? Corrected field name
             .populate("reviewer", "name"); // ? Populate reviewer's name
 
-        console.log("Found feedbacks:", feedbacks); // ? Log results
 
         res.json(feedbacks);
     } catch (error) {
