@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import "./DiscoverPage.css";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { searchUsers } from "../../services/search"; // Import search service
-import api from "../../api"; // Import main API instance
+import { searchUsers, advancedSearchUsers } from "../../services/search";
+import api from "../../api";
 
 const popularSkills = ["React", "JavaScript", "Python", "Django", "Flutter", "AI", "ML", "Node.js", "CSS"];
 
 const DiscoverPage = () => {
+  const [searchQueryAdvanced, setSearchQueryAdvanced] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [users, setUsers] = useState([]); // State for displaying users
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [location, setLocation] = useState("");
+  const [users, setUsers] = useState([]);
   const [allUsers, setAllUsers] = useState([]); // State for storing all users initially
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch all users on page load
+  // Завантаження всіх користувачів при відкритті сторінки
   useEffect(() => {
     const fetchAllUsers = async () => {
       setLoading(true);
@@ -31,8 +34,21 @@ const DiscoverPage = () => {
 
     fetchAllUsers();
   }, []);
+  
 
-  // Handle search when the button is clicked
+  const handleSearchAdvanced = async (query = "", skills = [], loc = "") => {
+    setLoading(true);
+    setError("");
+    try {
+      const results = await advancedSearchUsers(query, skills, loc);
+      setUsers(results);
+    } catch (err) {
+      setError("Failed to fetch users. Try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
       setUsers(allUsers); // If search is empty, reset to all users
@@ -52,62 +68,70 @@ const DiscoverPage = () => {
     }
   };
 
-  // Handle search by skill when a skill in sidebar is clicked
-  const handleSkillClick = async (skill) => {
-    setLoading(true);
-    setError("");
+  // Оновлення фільтрів
+  const handleFilterChange = () => {
+    handleSearchAdvanced(searchQueryAdvanced, selectedSkills, location);
+  };
 
-    try {
-      const results = await searchUsers(skill); // Search users by skill
-      setUsers(results);
-    } catch (err) {
-      setError("Failed to fetch users. Try again later.");
-    } finally {
-      setLoading(false);
-    }
+  // Обробка вибору навичок
+  const toggleSkill = (skill) => {
+    setSelectedSkills((prevSkills) =>
+      prevSkills.includes(skill) ? prevSkills.filter((s) => s !== skill) : [...prevSkills, skill]
+    );
   };
 
   return (
     <div className="discover-container">
-      {/* Sidebar */}
+      {/* Бокова панель */}
       <aside className="discover-sidebar">
-        <h2>Popular Skills</h2>
+        <h2>Filter by Skills</h2>
         <ul>
           {popularSkills.map((skill, index) => (
-            <li key={index} className="skill-item" onClick={() => handleSkillClick(skill)}>
-              {skill}
+            <li key={index} className={`skill-item ${selectedSkills.includes(skill) ? "selected" : ""}`} onClick={() => toggleSkill(skill)}>
+              <input type="checkbox" checked={selectedSkills.includes(skill)} readOnly /> {skill}
             </li>
           ))}
         </ul>
+
+        <h2>Location</h2>
+        <input
+          type="text"
+          placeholder="Enter location..."
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="location-input"
+        />
+
+        <button onClick={handleFilterChange} className="apply-filters">Apply Filters</button>
       </aside>
 
-      {/* Main Content */}
+      {/* Основний контент */}
       <main className="content">
-        {/* Search Bar */}
+        {/* Поле пошуку */}
         <div className="search-bar">
-          <input 
+          <input
             type="text"
             placeholder="Search users..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button onClick={handleSearch} className="search-button">
-            <FaSearch size={'1.5em'}/>
+            <FaSearch size={"1.5em"} />
           </button>
         </div>
 
-        {/* Display Loading or Error Messages */}
+        {/* Відображення статусу завантаження або помилки */}
         {loading && <p>Loading profiles...</p>}
         {error && <p className="error">{error}</p>}
 
-        {/* User Profiles List */}
+        {/* Відображення списку користувачів */}
         <div className="profiles-container">
           {users.map((profile) => (
             <div key={profile._id} className="user-card">
-              <img 
+              <img
                 src={profile.profilePicture ? `/uploads/${profile.profilePicture}` : "https://via.placeholder.com/150"}
-                alt={profile.user.name} 
-                className="user-avatar" 
+                alt={profile.user.name}
+                className="user-avatar"
               />
               <div className="user-info">
                 <h4>{profile.user.name}</h4>
@@ -119,12 +143,8 @@ const DiscoverPage = () => {
                 ))}
               </div>
               <div className="interact-container">
-                <Link to={`/ChatPage`} className="view-profile connect">
-                  Connect
-                </Link>
-                <Link to={`/ProfilePage/${profile.user._id}`} className="view-profile">
-                  View Profile
-                </Link>
+                <Link to={`/ChatPage`} className="view-profile connect">Connect</Link>
+                <Link to={`/ProfilePage/${profile.user._id}`} className="view-profile">View Profile</Link>
               </div>
             </div>
           ))}

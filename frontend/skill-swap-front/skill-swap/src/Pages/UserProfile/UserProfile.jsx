@@ -3,74 +3,54 @@ import './UserProfile.css';
 import { FaUser, FaCamera, FaEnvelope, FaInfoCircle, FaCode, FaLink } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-import api from '../../api';
+import { getProfile, updateProfile, uploadProfilePicture } from '../../services/profile';
 
 const UserProfile = () => {
     const [profile, setProfile] = useState({
-        user: { name: '' },
-        user: { email: '' },
+        user: { name: '', email: '' },
         location: '',
         skills: '',
         bio: '',
-        links: '' ,
+        links: '',
         profilePicture: ''
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [profileImage, setProfileImage] = useState(null);
     const navigate = useNavigate();
 
-    // Fetch user profile
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('/profile/me');
-                console.log("Fetched Profile Data:", response.data);
-                const socialLinks = Object.values(response.data.socialLinks).filter(link => link).join(', ');
-
-                setProfile({
-                    ...response.data,
-                    links: socialLinks
-                });
+                const data = await getProfile('me');
+                const socialLinks = Object.values(data.socialLinks).filter(link => link).join(', ');
+                setProfile({ ...data, links: socialLinks });
             } catch (err) {
                 setError('Failed to load profile. Try again later.');
             } finally {
                 setLoading(false);
             }
         };
-
         fetchProfile();
     }, []);
 
-    // Handle profile input changes
     const handleChange = (e) => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
     };
 
-    // Handle image upload
     const handleImageChange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const formData = new FormData();
-        formData.append('profilePicture', file);
+        const filePath = e.target.files[0]?.path;
+        if (!filePath) return;
 
         try {
-            const response = await api.post('/profile/upload', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
-
-            setProfileImage(response.data.profilePicture);
-            setProfile({ ...profile, profilePicture: response.data.profilePicture });
+            const response = await uploadProfilePicture(filePath);
+            setProfile({ ...profile, profilePicture: response.profilePicture });
         } catch (err) {
             setError('Failed to upload image.');
         }
     };
 
-    // Handle form submission (Update Profile)
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const linksArray = profile.links.split(',').map(link => link.trim());
         const updatedSocialLinks = {
             github: linksArray[0] || "",
@@ -79,14 +59,9 @@ const UserProfile = () => {
         };
 
         try {
-            await api.put('/profile', {
-                ...profile,
-                socialLinks: updatedSocialLinks 
-            });
-
+            await updateProfile({ ...profile, socialLinks: updatedSocialLinks });
             alert('Profile updated successfully!');
             navigate('/ProfilePage/' + profile.user._id);
-
         } catch (err) {
             setError('Failed to update profile.');
         }
@@ -101,7 +76,6 @@ const UserProfile = () => {
                 <div className="form-box login">
                     <form onSubmit={handleSubmit}>
                         <h1>Edit profile</h1>
-                        
                         <div className="profile-image">
                             <label htmlFor="imageUpload">
                                 <input type="file" id="imageUpload" accept="image/*" onChange={handleImageChange} />
@@ -112,7 +86,6 @@ const UserProfile = () => {
                                 )}
                             </label>
                         </div>
-
                         <div className="form-grid">
                             <div className="column">
                                 <div className="input-container">
@@ -147,7 +120,6 @@ const UserProfile = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="input-container">
                             <p>Skills</p>
                             <div className="input-box">
@@ -155,7 +127,6 @@ const UserProfile = () => {
                                 <FaCode className='icon' />
                             </div>
                         </div>
-
                         <div className="input-container bio">
                             <p>Bio (Max 500 Characters)</p>
                             <div className="input-box">
@@ -163,7 +134,6 @@ const UserProfile = () => {
                                 <FaInfoCircle className='icon' />
                             </div>
                         </div>
-
                         <button type="submit">Save Changes</button>
                         <button type="button" onClick={() => navigate(-1)}>Cancel</button>
                     </form>
