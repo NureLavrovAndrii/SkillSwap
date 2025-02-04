@@ -1,6 +1,7 @@
 const express = require('express');
 const Feedback = require('../models/Feedback');
 const authMiddleware = require('../middleware/authMiddleware');
+const mongoose = require("mongoose");
 
 const router = express.Router();
 
@@ -60,23 +61,30 @@ router.get("/:userId", async (req, res) => {
 
 
 /**
- * @route   GET /api/feedback/:userId/average
- * @desc    Get the average rating for a user
+ * @route   GET /api/feedback/average/:userId
+ * @desc    Get the average rating for a specific user
  * @access  Public
  */
-router.get('/:userId/average', async (req, res) => {
+router.get("/average/:userId", async (req, res) => {
     try {
-        const feedbacks = await Feedback.find({ recipient: req.params.userId });
+        const { userId } = req.params;
 
-        if (feedbacks.length === 0) {
-            return res.json({ averageRating: 0 });
-        }
+        // ? Convert `userId` to a MongoDB ObjectId
+        const recipientId = new mongoose.Types.ObjectId(userId);
 
-        const averageRating = feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length;
+        // ? Aggregate to calculate average rating
+        const result = await Feedback.aggregate([
+            { $match: { recipient: recipientId } }, // ? Match as ObjectId
+            { $group: { _id: "$recipient", averageRating: { $avg: "$rating" } } }
+        ]);
 
-        res.json({ averageRating: averageRating.toFixed(1) }); // Round to 1 decimal place
+        // ? Ensure average rating is returned properly
+        const averageRating = result.length > 0 ? result[0].averageRating.toFixed(1) : null;
+
+        res.json({ averageRating: averageRating || "No ratings yet" });
     } catch (error) {
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Error calculating average rating:", error);
+        res.status(500).json({ error: "Server Error" });
     }
 });
 
