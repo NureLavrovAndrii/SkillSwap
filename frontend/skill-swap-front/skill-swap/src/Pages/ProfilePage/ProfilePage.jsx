@@ -9,6 +9,7 @@ const ProfilePage = () => {
   const { userId } = useParams(); // Get profile ID from URL
   const [profile, setProfile] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showReviews, setShowReviews] = useState(false); // 📌 Додаємо стан
@@ -17,13 +18,15 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const [profileRes, userRes] = await Promise.all([
+        const [profileRes, userRes, feedbackRes] = await Promise.all([
           api.get(`/profile/${userId}`), // Get profile by userId
           getCurrentUser(), // Get logged-in user
+          api.get(`/feedback/${userId}`)
         ]);
 
         setProfile(profileRes.data);
         setCurrentUser(userRes);
+        setFeedbacks(feedbackRes.data);
       } catch (err) {
         setError("Failed to load profile. Please try again.");
       } finally {
@@ -90,8 +93,8 @@ const ProfilePage = () => {
         <div className={`reviews-container ${showReviews ? "show" : ""}`}>
           <h2>Reviews</h2>
           <ul>
-            {profile.reviews && profile.reviews.length > 0 ? (
-              profile.reviews.map((review, index) => (
+            {feedbacks.length > 0 ? (
+              feedbacks.map((review, index) => (
                 <li key={index} className="review-item">
                   <strong>{review.author}</strong>: {review.text}
                 </li>

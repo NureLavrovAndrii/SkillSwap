@@ -40,20 +40,24 @@ router.post('/', authMiddleware, async (req, res) => {
 
 /**
  * @route   GET /api/feedback/:userId
- * @desc    Get all feedback for a user
+ * @desc    Get feedbacks for a specific user
  * @access  Public
  */
-router.get('/:userId', async (req, res) => {
+router.get("/:userId", async (req, res) => {
     try {
-        const feedbacks = await Feedback.find({ recipient: req.params.userId })
-            .populate('reviewer', 'name email') // Show reviewer details
-            .sort({ createdAt: -1 });
+        const { userId } = req.params;
 
-        res.json({ feedbacks });
+        const feedbacks = await Feedback.find({ recipient: userId }) // ? Corrected field name
+            .populate("reviewer", "name"); // ? Populate reviewer's name
+
+
+        res.json(feedbacks);
     } catch (error) {
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Error fetching feedback:", error);
+        res.status(500).json({ error: "Server Error" });
     }
 });
+
 
 /**
  * @route   GET /api/feedback/:userId/average
