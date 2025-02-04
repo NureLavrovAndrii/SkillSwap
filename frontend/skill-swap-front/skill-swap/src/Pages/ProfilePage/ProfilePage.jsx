@@ -43,7 +43,7 @@ const ProfilePage = () => {
         {/* 📌 Блок з фото і загальною інфою */}
         <div className="profile-header">
           <img 
-            src={profile.profilePicture ? profile.profilePicture : "/assets/images/ProfilePictureTest.jpg"} 
+            src={profile.profilePicture ? `http://localhost:3000${profile.profilePicture}` : "/assets/images/ProfilePictureTest.jpg"} 
             alt="Profile" 
             className="profile-pic" 
           />
