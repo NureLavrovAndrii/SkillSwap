@@ -74,11 +74,11 @@ const UserProfile = () => {
         <div className="edit-wrapper">
             <div className={`user-wrapper`}>
                 <div className="form-box login">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit && handleImageChange}>
                         <h1>Edit profile</h1>
                         <div className="profile-image">
                             <label htmlFor="imageUpload">
-                                <input type="file" id="imageUpload" accept="image/*" onChange={handleImageChange} />
+                                <input type="file" id="imageUpload" accept="image/*" />
                                 {profile.profilePicture ? (
                                     <img src={profile.profilePicture} alt="Profile" />
                                 ) : (
