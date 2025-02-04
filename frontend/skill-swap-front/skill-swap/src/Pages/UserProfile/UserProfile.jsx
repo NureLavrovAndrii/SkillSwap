@@ -22,8 +22,13 @@ const UserProfile = () => {
         const fetchProfile = async () => {
             try {
                 const data = await getProfile('me');
+    
+                // Об'єднуємо масив `skills` у рядок для інпуту
+                const skillsString = Array.isArray(data.skills) ? data.skills.join(", ") : data.skills;
+    
                 const socialLinks = Object.values(data.socialLinks).filter(link => link).join(', ');
-                setProfile({ ...data, links: socialLinks });
+    
+                setProfile({ ...data, skills: skillsString, links: socialLinks });
             } catch (err) {
                 setError('Failed to load profile. Try again later.');
             } finally {
@@ -32,6 +37,7 @@ const UserProfile = () => {
         };
         fetchProfile();
     }, []);
+    
 
     const handleChange = (e) => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -75,8 +81,15 @@ const UserProfile = () => {
             website: linksArray[2] || ""
         };
     
+        // Перетворення `skills` у масив
+        const skillsArray = profile.skills.split(",").map(skill => skill.trim());
+    
         try {
-            await updateProfile({ ...profile, socialLinks: updatedSocialLinks });
+            await updateProfile({ 
+                ...profile, 
+                socialLinks: updatedSocialLinks, 
+                skills: skillsArray // передаємо масив
+            });
             alert("Profile updated successfully!");
             navigate("/ProfilePage/" + profile.user._id);
         } catch (err) {
