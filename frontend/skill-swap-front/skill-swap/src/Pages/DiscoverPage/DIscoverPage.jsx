@@ -128,10 +128,10 @@ const DiscoverPage = () => {
         <div className="profiles-container">
           {users.map((profile) => (
             <div key={profile._id} className="user-card">
-              <img
-                src={profile.profilePicture ? `/uploads/${profile.profilePicture}` : "https://via.placeholder.com/150"}
-                alt={profile.user.name}
-                className="user-avatar"
+              <img 
+                src={profile.profilePicture ? `http://localhost:3000${profile.profilePicture}` : "/assets/images/ProfilePictureTest.jpg"}
+                alt={profile.user.name} 
+                className="user-avatar" 
               />
               <div className="user-info">
                 <h4>{profile.user.name}</h4>
